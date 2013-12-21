@@ -42,7 +42,7 @@
 #
 #  class { "puppet::master":
 #    modulepath             => inline_template("<%= modulepath.join(':') %>"),
-#    storedcofnigs          => 'true',
+#    storeconfigs          => 'true',
 #  }
 #
 class puppet::master (
