@@ -7,6 +7,7 @@
 #  ['group_id']                 - The groupid of the puppet group
 #  ['modulepath']               - Module path to be served by the puppet master
 #  ['manifest']                 - Manifest path
+#  ['hiera_config']             - Hiera config file path
 #  ['reports']                  - Turn on puppet reports
 #  ['storeconfigs']             - Use storedcofnigs
 #  ['storeconfigs_dbserver']    - Puppetdb server
@@ -46,28 +47,29 @@
 #  }
 #
 class puppet::master (
-  $user_id                  = undef,
-  $group_id                 = undef,
-  $modulepath               = $::puppet::params::modulepath,
-  $manifest                 = $::puppet::params::manifest,
-  $reports                  = store,
-  $storeconfigs             = false,
-  $storeconfigs_dbserver   =  $::puppet::params::storeconfigs_dbserver,
-  $storeconfigs_dbport      = $::puppet::params::storeconfigs_dbport,
-  $certname                 = $::fqdn,
-  $autosign                 = false,
-  $reporturl                = 'UNSET',
-  $puppet_ssldir            = $::puppet::params::puppet_ssldir,
-  $puppet_docroot           = $::puppet::params::puppet_docroot,
-  $puppet_vardir            = $::puppet::params::puppet_vardir,
-  $puppet_passenger_port    = $::puppet::params::puppet_passenger_port,
-  $puppet_master_package    = $::puppet::params::puppet_master_package,
-  $puppet_master_service    = $::puppet::params::puppet_master_service,
-  $version                  = 'present',
-  $apache_serveradmin       = $::puppet::params::apache_serveradmin,
-  $pluginsync               = true,
-  $parser                   = $::puppet::params::parser,
-  $puppetdb_startup_timeout = '60',
+  $user_id                    = undef,
+  $group_id                   = undef,
+  $modulepath                 = $::puppet::params::modulepath,
+  $manifest                   = $::puppet::params::manifest,
+  $hiera_config               = $::puppet::params::hiera_config,
+  $reports                    = store,
+  $storeconfigs               = false,
+  $storeconfigs_dbserver      = $::puppet::params::storeconfigs_dbserver,
+  $storeconfigs_dbport        = $::puppet::params::storeconfigs_dbport,
+  $certname                   = $::fqdn,
+  $autosign                   = false,
+  $reporturl                  = 'UNSET',
+  $puppet_ssldir              = $::puppet::params::puppet_ssldir,
+  $puppet_docroot             = $::puppet::params::puppet_docroot,
+  $puppet_vardir              = $::puppet::params::puppet_vardir,
+  $puppet_passenger_port      = $::puppet::params::puppet_passenger_port,
+  $puppet_master_package      = $::puppet::params::puppet_master_package,
+  $puppet_master_service      = $::puppet::params::puppet_master_service,
+  $version                    = 'present',
+  $apache_serveradmin         = $::puppet::params::apache_serveradmin,
+  $pluginsync                 = true,
+  $parser                     = $::puppet::params::parser,
+  $puppetdb_startup_timeout   = '60',
   $puppetdb_strict_validation = $::puppet::params::puppetdb_strict_validation
 ) inherits puppet::params {
 
@@ -196,6 +198,12 @@ class puppet::master (
     ensure  => present,
     setting => 'manifest',
     value   => $manifest,
+  }
+
+  ini_setting {'puppetmasterhieraconfig':
+    ensure  => present,
+    setting => 'hiera_config',
+    value   => $hiera_config,
   }
 
   ini_setting {'puppetmasterautosign':
