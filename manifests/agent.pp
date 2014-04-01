@@ -18,6 +18,7 @@
 #   ['pluginsync']            - Whethere to have pluginsync
 #   ['use_srv_records']       - Whethere to use srv records
 #   ['srv_domain']            - Domain to request the srv records
+#   ['ordering']              - The way the agent processes resources. New feature in puppet 3.3.0
 #
 # Actions:
 # - Install and configures the puppet agent
@@ -47,7 +48,8 @@ class puppet::agent(
   $report                 = true,
   $pluginsync             = true,
   $use_srv_records        = false,
-  $srv_domain             = undef
+  $srv_domain             = undef,
+  $ordering               = undef
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -183,6 +185,15 @@ class puppet::agent(
     ini_setting {'puppetagentsrv_domain':
       ensure  => absent,
       setting => 'srv_domain',
+    }
+  }
+
+  if $ordering
+  {
+    ini_setting {'puppetagentordering':
+      ensure  => present,
+      setting => 'ordering',
+      value   => $ordering,
     }
   }
 
