@@ -188,11 +188,11 @@ class puppet::agent(
     }
   }
 
-  if (($ordering == true) and (${::puppetversion} < '3.3.0'))
+  if (($ordering) and ($::puppetversion < '3.3.0'))
   {
-    fail("ordering requires puppet verions 3.3.0 or greater")
+    fail('ordering requires puppet verions 3.3.0 or greater')
   }
-  elsif (($ordering == true) and (${::puppetversion} >= '3.3.0'))
+  elsif (($ordering) and ($::puppetversion >= '3.3.0'))
   {
     ini_setting {'puppetagentordering':
       ensure  => present,
