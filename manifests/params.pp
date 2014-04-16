@@ -43,6 +43,17 @@ class puppet::params {
       $passenger_package            = 'mod_passenger'
       $rack_package                 = 'rubygem-rack'
     }
+    Suse: {
+      $puppet_master_package        = 'puppet-server'
+      $puppet_master_service        = 'puppetmasterd'
+      $puppet_agent_service         = 'puppet'
+      $puppet_agent_package         = 'puppet'
+      $puppet_conf                  = '/etc/puppet/puppet.conf'
+      $puppet_vardir                = '/var/lib/puppet'
+      $puppet_ssldir                = '/var/lib/puppet/ssl'
+      $passenger_package            = 'rubygem-passenger-apache2'
+      $rack_package                 = 'rubygem-rack'
+    }
     Debian: {
       $puppet_master_package        = 'puppetmaster'
       $puppet_master_service        = 'puppetmaster'
