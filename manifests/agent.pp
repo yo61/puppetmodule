@@ -19,6 +19,7 @@
 #   ['use_srv_records']       - Whethere to use srv records
 #   ['srv_domain']            - Domain to request the srv records
 #   ['ordering']              - The way the agent processes resources. New feature in puppet 3.3.0
+#   ['trusted_node_data']     - Enable the trusted facts hash
 #
 # Actions:
 # - Install and configures the puppet agent
@@ -49,7 +50,8 @@ class puppet::agent(
   $pluginsync             = true,
   $use_srv_records        = false,
   $srv_domain             = undef,
-  $ordering               = undef
+  $ordering               = undef,
+  $trusted_node_data      = undef,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -188,17 +190,27 @@ class puppet::agent(
     }
   }
 
-  if (($ordering) and ($::puppetversion < '3.3.0'))
+  if $ordering != undef
   {
-    fail('ordering requires puppet verions 3.3.0 or greater')
+    $orderign_ensure = 'present'
+  }else {
+    $orderign_ensure = 'absent'
   }
-  elsif (($ordering) and ($::puppetversion >= '3.3.0'))
+  ini_setting {'puppetagentordering':
+    ensure  => $orderign_ensure,
+    setting => 'ordering',
+    value   => $ordering,
+  }
+  if $trusted_node_data != undef
   {
-    ini_setting {'puppetagentordering':
-      ensure  => present,
-      setting => 'ordering',
-      value   => $ordering,
-    }
+    $trusted_node_data_ensure = 'present'
+  }else {
+    $trusted_node_data_ensure = 'absent'
+  }
+  ini_setting {'puppetagenttrusted_node_data':
+    ensure  => $trusted_node_data_ensure,
+    setting => 'trusted_node_data',
+    value   => $trusted_node_data,
   }
 
   ini_setting {'puppetagentenvironment':
