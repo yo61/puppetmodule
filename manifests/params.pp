@@ -68,7 +68,7 @@ class puppet::params {
     }
     FreeBSD: {
       $puppet_agent_service         = 'puppet'
-      $puppet_agent_package         = 'puppet'
+      $puppet_agent_package         = 'sysutils/puppet'
       $puppet_conf                  = '/usr/local/etc/puppet/puppet.conf'
       $puppet_vardir                = '/var/puppet'
       $puppet_ssldir                = '/var/puppet/ssl'
