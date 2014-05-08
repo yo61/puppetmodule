@@ -20,6 +20,7 @@
 #   ['srv_domain']            - Domain to request the srv records
 #   ['ordering']              - The way the agent processes resources. New feature in puppet 3.3.0
 #   ['trusted_node_data']     - Enable the trusted facts hash
+#   ['listen']                - If puppet agent should listen for connections
 #
 # Actions:
 # - Install and configures the puppet agent
@@ -52,6 +53,7 @@ class puppet::agent(
   $srv_domain             = undef,
   $ordering               = undef,
   $trusted_node_data      = undef,
+  $listen                 = false,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -257,5 +259,10 @@ class puppet::agent(
     ensure  => present,
     setting => 'pluginsync',
     value   => $pluginsync,
+  }
+  ini_setting {'puppetagentlisten':
+    ensure  => present,
+    setting => 'listen',
+    value   => $listen,
   }
 }
