@@ -37,7 +37,8 @@ class puppet::passenger(
   $puppet_conf,
   $puppet_ssldir,
   $certname,
-  $conf_dir
+  $conf_dir,
+  $dns_alt_names
 ){
   include apache
   include puppet::params
@@ -74,7 +75,7 @@ class puppet::passenger(
   $crt_clean_cmd  = "puppet cert clean ${certname}"
   # I would have preferred to use puppet cert generate, but it does not
   # return the corret exit code on some versions of puppet
-  $crt_gen_cmd   = "puppet certificate --ca-location=local --dns_alt_names=puppet generate ${certname}"
+  $crt_gen_cmd   = "puppet certificate --ca-location=local --dns_alt_names=$dns_alt_names generate ${certname}"
   # I am using the sign command here b/c AFAICT, the sign command for certificate
   # does not work
   $crt_sign_cmd  = "puppet cert sign --allow-dns-alt-names ${certname}"

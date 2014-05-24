@@ -26,6 +26,7 @@
 #  ['pluginsync']               - Enable plugin sync
 #  ['parser']                   - Which parser to use
 #  ['puppetdb_startup_timeout'] - The timeout for puppetdb
+#  ['dns_alt_names']            - Comma separated list of alternative DNS names
 #
 # Requires:
 #
@@ -70,7 +71,8 @@ class puppet::master (
   $pluginsync                 = true,
   $parser                     = $::puppet::params::parser,
   $puppetdb_startup_timeout   = '60',
-  $puppetdb_strict_validation = $::puppet::params::puppetdb_strict_validation
+  $puppetdb_strict_validation = $::puppet::params::puppetdb_strict_validation,
+  $dns_alt_names              = ['puppet'],
 ) inherits puppet::params {
 
   anchor { 'puppet::master::begin': }
@@ -116,6 +118,7 @@ class puppet::master (
     puppet_ssldir          => $::puppet::params::puppet_ssldir,
     certname               => $certname,
     conf_dir               => $::puppet::params::confdir,
+    dns_alt_names          => join($dns_alt_names,","),
   } ->
   Anchor['puppet::master::end']
 
@@ -242,6 +245,12 @@ class puppet::master (
       setting => 'reporturl',
       value   => $reporturl,
     }
+  }
+
+  ini_setting {'puppetmasterdnsaltnames':
+      ensure  => present,
+      setting => 'dns_alt_names',
+      value   => join($dns_alt_names, ","),
   }
 
   anchor { 'puppet::master::end': }

@@ -21,7 +21,8 @@ describe 'puppet::master', :type => :class do
                 :autosign               => 'true',
                 :certname               => 'test.example.com',
                 :storeconfigs           => 'true',
-                :storeconfigs_dbserver  => 'test.example.com'
+                :storeconfigs_dbserver  => 'test.example.com',
+                :dns_alt_names          => ['puppet']
 
             }
         end
@@ -128,6 +129,13 @@ describe 'puppet::master', :type => :class do
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => 'true'
             )
+            should contain_ini_setting('puppetmasterdnsaltnames').with(
+                :ensure  => 'present',
+                :section => 'master',
+                :setting => 'dns_alt_names',
+                :path    => '/etc/puppet/puppet.conf',
+                :value   => params[:dns_alt_names].join(',')
+            )
             should contain_anchor('puppet::master::begin').with_before(
               ['Class[Puppet::Passenger]', 'Class[Puppet::Storeconfigs]']
             )
@@ -154,7 +162,8 @@ describe 'puppet::master', :type => :class do
                 :autosign               => 'true',
                 :certname               => 'test.example.com',
                 :storeconfigs           => 'true',
-                :storeconfigs_dbserver  => 'test.example.com'
+                :storeconfigs_dbserver  => 'test.example.com',
+                :dns_alt_names          => ['puppet']
 
             }
         end
@@ -259,6 +268,13 @@ describe 'puppet::master', :type => :class do
                 :setting => 'pluginsync',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => 'true'
+            )
+            should contain_ini_setting('puppetmasterdnsaltnames').with(
+                :ensure  => 'present',
+                :section => 'master',
+                :setting => 'dns_alt_names',
+                :path    => '/etc/puppet/puppet.conf',
+                :value   => params[:dns_alt_names].join(',')
             )
             should contain_anchor('puppet::master::begin').with_before(
               ['Class[Puppet::Passenger]', 'Class[Puppet::Storeconfigs]']
