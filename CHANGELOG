@@ -39,3 +39,9 @@
   * added puppet agent option "ordering" <gigawhat>
   * added puppet agent option "trusted_node_data"
   * Beta Suse Support
+2014-06-13 Stephen Johnson <steve@thatbytes.co.uk> - 0.0.22
+  * corrected the package name for FreeBSD <oillogicalimbecile>
+  * Added listen parameter for puppet agent to listen for connections <pythianjoseph>
+  * Added support for dns_alt_names <jyundt>
+  * Fix default encoding in config.ru <dvorak>
+  * Added reportserver parameter for puppet agent to send transaction <pythianjoseph>
