@@ -23,10 +23,10 @@ describe 'puppet::passenger', :type => :class do
             }
         end
          it {
-                should include_class('apache')
-                should include_class('puppet::params')
-                should include_class('apache::mod::passenger')
-                should include_class('apache::mod::ssl')
+                #should include_class('apache')
+                should contain_class('puppet::params')
+                should contain_class('apache::mod::passenger')
+                should contain_class('apache::mod::ssl')
                 should contain_exec('Certificate_Check').with(
                     :command =>
                       "puppet cert clean #{params[:certname]} ; " +
