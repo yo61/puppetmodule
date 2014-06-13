@@ -55,7 +55,7 @@ class puppet::agent(
   $ordering               = undef,
   $trusted_node_data      = undef,
   $listen                 = false,
-  $reportserver           = undef,
+  $reportserver           = '$server',
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
