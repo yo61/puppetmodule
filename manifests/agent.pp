@@ -129,7 +129,7 @@ class puppet::agent(
       }
     }
     # Run Puppet through external tooling, like MCollective
-    external: {
+    'external': {
       $service_ensure = 'stopped'
       $service_enable = false
     }
