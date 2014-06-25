@@ -206,7 +206,7 @@ class puppet::master (
     }
     default: { fail("Unknown value for environments ${environments}") }
   }
-  
+
   ini_setting {'puppetmastermodulepath':
     ensure  => $setting_config,
     setting => 'modulepath',
