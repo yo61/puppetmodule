@@ -8,6 +8,8 @@
 #  ['modulepath']               - Module path to be served by the puppet master
 #  ['manifest']                 - Manifest path
 #  ['hiera_config']             - Hiera config file path
+#  ['environments']             - Which environment method (directory or config)
+#  ['environmentpath']          - Puppet environment base path (use with environments directory)
 #  ['reports']                  - Turn on puppet reports
 #  ['storeconfigs']             - Use storedcofnigs
 #  ['storeconfigs_dbserver']    - Puppetdb server
@@ -53,6 +55,8 @@ class puppet::master (
   $modulepath                 = $::puppet::params::modulepath,
   $manifest                   = $::puppet::params::manifest,
   $hiera_config               = $::puppet::params::hiera_config,
+  $environmentpath            = $::puppet::params::environmentpath,
+  $environments               = $::puppet::params::environments,
   $reports                    = store,
   $storeconfigs               = false,
   $storeconfigs_dbserver      = $::puppet::params::storeconfigs_dbserver,
@@ -191,16 +195,32 @@ class puppet::master (
       section => 'master',
   }
 
+  case $environments {
+    'config': {
+      $setting_config='present'
+      $setting_directory='absent'
+    }
+    'directory': {
+      $setting_config='absent'
+      $setting_directory='present'
+    }
+    default: { fail("Unknown value for environments ${environments}") }
+  }
+  
   ini_setting {'puppetmastermodulepath':
-    ensure  => present,
+    ensure  => $setting_config,
     setting => 'modulepath',
     value   => $modulepath,
   }
-
   ini_setting {'puppetmastermanifest':
-    ensure  => present,
+    ensure  => $setting_config,
     setting => 'manifest',
     value   => $manifest,
+  }
+  ini_setting {'puppetmasterenvironmentpath':
+    ensure  => $setting_directory,
+    setting => 'environmentpath',
+    value   => $environmentpath,
   }
 
   ini_setting {'puppetmasterhieraconfig':

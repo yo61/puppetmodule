@@ -74,6 +74,10 @@ describe 'puppet::master', :type => :class do
             should contain_class('puppet::passenger').with(
               :before => 'Anchor[puppet::master::end]'
             )
+            should contain_ini_setting('puppetmasterenvironmentpath').with(
+                :ensure  => 'absent',
+                :setting => 'environmentpath'
+            )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'present',
                 :section => 'master',
@@ -214,6 +218,9 @@ describe 'puppet::master', :type => :class do
             should contain_class('puppet::passenger').with(
               :before => 'Anchor[puppet::master::end]'
             )
+            should contain_ini_setting('puppetmasterenvironmentpath').with(
+                :ensure  => 'absent'
+            )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'present',
                 :section => 'master',
@@ -282,4 +289,71 @@ describe 'puppet::master', :type => :class do
             should contain_anchor('puppet::master::end')
         }
     end
+    context 'When environment handling is set to directory' do
+        let(:facts) do
+            {
+                :osfamily        => 'RedHat',
+                :operatingsystem => 'RedHat',
+                :operatingsystemrelease => '6',
+                :concat_basedir => '/nde',
+            }
+        end
+        let (:params) do {
+            :environments => 'directory'
+        }
+        end
+
+        it {
+            should contain_ini_setting('puppetmasterenvironmentpath').with(
+                :ensure  => 'present',
+                :section => 'master',
+                :setting => 'environmentpath',
+                :path    => '/etc/puppet/puppet.conf',
+                :value   => '$confdir/environments'
+            )
+            should contain_ini_setting('puppetmastermodulepath').with(
+                :ensure  => 'absent',
+                :setting => 'modulepath'
+            )
+            should contain_ini_setting('puppetmastermanifest').with(
+                :ensure  => 'absent',
+                :setting => 'manifest'
+            )
+            
+        }
+    end
+    context 'When environment handling is set to directory with specified environmentpath' do
+        let(:facts) do
+            {
+                :osfamily        => 'RedHat',
+                :operatingsystem => 'RedHat',
+                :operatingsystemrelease => '6',
+                :concat_basedir => '/nde',
+            }
+        end
+        let (:params) do {
+            :environments => 'directory',
+            :environmentpath => '/etc/puppetlabs/puppet/environments',
+        }
+        end
+
+        it {
+            should contain_ini_setting('puppetmasterenvironmentpath').with(
+                :ensure  => 'present',
+                :section => 'master',
+                :setting => 'environmentpath',
+                :path    => '/etc/puppet/puppet.conf',
+                :value   => '/etc/puppetlabs/puppet/environments'
+            )
+            should contain_ini_setting('puppetmastermodulepath').with(
+                :ensure  => 'absent',
+                :setting => 'modulepath'
+            )
+            should contain_ini_setting('puppetmastermanifest').with(
+                :ensure  => 'absent',
+                :setting => 'manifest'
+            )
+        }
+    end
+        
 end
