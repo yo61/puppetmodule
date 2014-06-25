@@ -29,6 +29,10 @@ class puppet::params {
   $apache_serveradmin               = 'root'
   $parser                           = 'current'
   $puppetdb_strict_validation       = true
+  $environments                     = 'config'
+
+  # Only used when environments == directory
+  $environmentpath                  = '$confdir/environments'
 
   case $::osfamily {
     'RedHat': {
