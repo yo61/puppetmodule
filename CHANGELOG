@@ -45,3 +45,6 @@
   * Added support for dns_alt_names <jyundt>
   * Fix default encoding in config.ru <dvorak>
   * Added reportserver parameter for puppet agent to send transaction <pythianjoseph>
+2014-06-25 Stephen Johnson <steve@thatbytes.co.uk> - 0.0.23
+  * Fixed mis quoting for a few variables <lavoiesi>
+  * Add initial support for directory environments <crayfishx>
