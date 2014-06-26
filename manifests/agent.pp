@@ -22,6 +22,7 @@
 #   ['trusted_node_data']     - Enable the trusted facts hash
 #   ['listen']                - If puppet agent should listen for connections
 #   ['reportserver']          - The server to send transaction reports to.
+#   ['digest_algorithm']      - The algorithm to use for file digests.
 #
 # Actions:
 # - Install and configures the puppet agent
@@ -56,6 +57,7 @@ class puppet::agent(
   $trusted_node_data      = undef,
   $listen                 = false,
   $reportserver           = '$server',
+  $digest_algorithm       = $::puppet::params::digest_algorithm,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -271,5 +273,10 @@ class puppet::agent(
     ensure  => present,
     setting => 'reportserver',
     value   => $reportserver,
+  }
+  ini_setting {'puppetagentdigestalgorithm':
+    ensure  => present,
+    setting => 'digest_algorithm',
+    value   => $digest_algorithm,
   }
 }
