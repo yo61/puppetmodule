@@ -8,7 +8,7 @@
 #   ['puppet_agent_service']  - The service the puppet agent runs under
 #   ['puppet_agent_package']  - The name of the package providing the puppet agent
 #   ['version']               - The version of the puppet agent to install
-#   ['puppet_run_style']      - The run style of the agent either cron or service
+#   ['puppet_run_style']      - The run style of the agent either 'service', 'cron', 'external' or 'manual'
 #   ['puppet_run_interval']   - The run interval of the puppet agent in minutes, default is 30 minutes
 #   ['user_id']               - The userid of the puppet user
 #   ['group_id']              - The groupid of the puppet group
@@ -83,7 +83,7 @@ class puppet::agent(
     $startonboot = 'no'
   }
 
-  if ($::osfamily == 'Debian') or ($::osfamily == 'Redhat') {
+  if ($::osfamily == 'Debian' and $puppet_run_style != 'manual') or ($::osfamily == 'Redhat') {
     file { $puppet::params::puppet_defaults:
       mode    => '0644',
       owner   => 'root',
@@ -132,18 +132,25 @@ class puppet::agent(
       $service_ensure = 'stopped'
       $service_enable = false
     }
+    # Do not manage the Puppet service and don't touch Debian's defaults file.
+    manual: {
+      $service_ensure = undef
+      $service_enable = undef
+    }
     default: {
       err 'Unsupported puppet run style in Class[\'puppet::agent\']'
     }
   }
 
-  service { $puppet_agent_service:
-    ensure     => $service_ensure,
-    enable     => $service_enable,
-    hasstatus  => true,
-    hasrestart => true,
-    subscribe  => [File[$::puppet::params::puppet_conf], File[$::puppet::params::confdir]],
-    require    => Package[$puppet_agent_package],
+  if $puppet_run_style != 'manual' {
+    service { $puppet_agent_service:
+      ensure     => $service_ensure,
+      enable     => $service_enable,
+      hasstatus  => true,
+      hasrestart => true,
+      subscribe  => [File[$::puppet::params::puppet_conf], File[$::puppet::params::confdir]],
+      require    => Package[$puppet_agent_package],
+    }
   }
 
   if ! defined(File[$::puppet::params::puppet_conf]) {
