@@ -99,7 +99,6 @@ class puppet::agent(
       require => Package[$puppet_agent_package],
       owner   => $::puppet::params::puppet_user,
       group   => $::puppet::params::puppet_group,
-      notify  => Service[$puppet_agent_service],
       mode    => '0655',
     }
   }
@@ -143,7 +142,7 @@ class puppet::agent(
     enable     => $service_enable,
     hasstatus  => true,
     hasrestart => true,
-    subscribe  => File [$::puppet::params::puppet_conf],
+    subscribe  => [File[$::puppet::params::puppet_conf], File[$::puppet::params::confdir]],
     require    => Package[$puppet_agent_package],
   }
 
@@ -154,7 +153,6 @@ class puppet::agent(
         require => File[$::puppet::params::confdir],
         owner   => $::puppet::params::puppet_user,
         group   => $::puppet::params::puppet_group,
-        notify  => Service[$puppet_agent_service],
       }
     }
     else {
