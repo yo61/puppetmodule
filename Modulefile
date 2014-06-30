@@ -8,6 +8,6 @@ license 'Apache'
 project_page 'https://github.com/stephenrjohnson/puppetlabs-puppet'
 ## Add dependencies, if any:
 dependency 'puppetlabs/inifile', '>= 1.0.0'
-dependency 'puppetlabs/apache', '>= 0.8.0'
+dependency 'puppetlabs/apache', '>= 1.0.1'
 dependency 'puppetlabs/puppetdb', '>= 2.0.0'
 dependency 'puppetlabs/stdlib', '>= 3.0.0'
