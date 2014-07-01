@@ -30,6 +30,7 @@ class puppet::params {
   $parser                           = 'current'
   $puppetdb_strict_validation       = true
   $environments                     = 'config'
+  $digest_algorithm                 = 'md5'
 
   # Only used when environments == directory
   $environmentpath                  = '$confdir/environments'

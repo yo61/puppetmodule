@@ -29,6 +29,7 @@
 #  ['parser']                   - Which parser to use
 #  ['puppetdb_startup_timeout'] - The timeout for puppetdb
 #  ['dns_alt_names']            - Comma separated list of alternative DNS names
+#  ['digest_algorithm']         - The algorithm to use for file digests.
 #
 # Requires:
 #
@@ -77,6 +78,7 @@ class puppet::master (
   $puppetdb_startup_timeout   = '60',
   $puppetdb_strict_validation = $::puppet::params::puppetdb_strict_validation,
   $dns_alt_names              = ['puppet'],
+  $digest_algorithm           = $::puppet::params::digest_algorithm,
 ) inherits puppet::params {
 
   anchor { 'puppet::master::begin': }
@@ -271,6 +273,12 @@ class puppet::master (
       ensure  => present,
       setting => 'dns_alt_names',
       value   => join($dns_alt_names, ","),
+  }
+
+  ini_setting {'puppetmasterdigestalgorithm':
+      ensure  => present,
+      setting => 'digest_algorithm',
+      value   => $digest_algorithm,
   }
 
   anchor { 'puppet::master::end': }
