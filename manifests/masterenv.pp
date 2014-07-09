@@ -18,13 +18,19 @@
 #       manifest               => 'dev'
 #   }
 #
-define  puppet::masterenv ($modulepath, $manifest, $puppet_conf = $::puppet::params::puppet_conf){
+define  puppet::masterenv (
+  $modulepath,
+  $manifest,
+  $puppet_conf = $::puppet::params::puppet_conf,
+  $environments = $::puppet::master::environments,
+  $environmentpath = $::puppet::master::environmentpath
+) {
   
-  case $::puppet::master::environments {
+  case $environments {
     'directory': {
-       $path = "${::puppet::master::environmentpath}/${name}/environment.conf"
+       $path = "${environmentpath}/${name}/environment.conf"
        $section = ''
-       file { "${::puppet::master::environmentpath}/${name}":
+       file { "${environmentpath}/${name}":
          ensure => directory,
        }
     }
