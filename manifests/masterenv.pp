@@ -22,8 +22,11 @@ define  puppet::masterenv ($modulepath, $manifest, $puppet_conf = $::puppet::par
   
   case $::puppet::master::environments {
     'directory': {
-       $path = "${::puppet::master::environmentpath}/environment.conf"
+       $path = "${::puppet::master::environmentpath}/${name}/environment.conf"
        $section = ''
+       file { "${::puppet::master::environmentpath}/${name}":
+         ensure => directory,
+       }
     },
     default: {
        $path = $puppet_conf
