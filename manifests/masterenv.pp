@@ -25,18 +25,18 @@ define  puppet::masterenv (
   $environments = $::puppet::master::environments,
   $environmentpath = $::puppet::master::environmentpath
 ) {
-  
+
   case $environments {
     'directory': {
-       $path = "${environmentpath}/${name}/environment.conf"
-       $section = ''
-       file { "${environmentpath}/${name}":
-         ensure => directory,
-       }
+      $path = "${environmentpath}/${name}/environment.conf"
+      $section = ''
+      file { "${environmentpath}/${name}":
+        ensure => directory,
+      }
     }
     default: {
-       $path = $puppet_conf
-       $section = $name
+      $path = $puppet_conf
+      $section = $name
     }
   }
 
