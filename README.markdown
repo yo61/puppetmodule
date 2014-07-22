@@ -36,11 +36,11 @@ Puppet 3.5 introduced a new way of handling Puppet environments known as _Direct
     class { 'puppet::master': }
 
     puppet::masterenv {'dev':
-        modulepath => '/etc/puppet/evn/dev/modules',
+        modulepath => '/etc/puppet/env/dev/modules',
         manifest   => '/etc/puppet/env/dev/site.pp',
     }
     puppet::masterenv {'production':
-        modulepath => '/etc/puppet/evn/production/modules',
+        modulepath => '/etc/puppet/env/production/modules',
         manifest   => '/etc/puppet/env/production/site.pp',
     }
 
