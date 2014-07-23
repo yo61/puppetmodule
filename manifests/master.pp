@@ -124,7 +124,7 @@ class puppet::master (
     puppet_ssldir          => $puppet_ssldir,
     certname               => $certname,
     conf_dir               => $::puppet::params::confdir,
-    dns_alt_names          => join($dns_alt_names,","),
+    dns_alt_names          => join($dns_alt_names,','),
   } ->
   Anchor['puppet::master::end']
 
@@ -272,7 +272,7 @@ class puppet::master (
   ini_setting {'puppetmasterdnsaltnames':
       ensure  => present,
       setting => 'dns_alt_names',
-      value   => join($dns_alt_names, ","),
+      value   => join($dns_alt_names, ','),
   }
 
   ini_setting {'puppetmasterdigestalgorithm':
