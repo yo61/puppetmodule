@@ -3,6 +3,7 @@
 # This class installs and configures the puppetdb terminus pacakge
 #
 # Parameters:
+#   ['generate_ssl_certs']       - Generate ssl certs (false to disable)
 #   ['puppet_passenger_port']    - The port for the virtual host
 #   ['puppet_docroot']           - Apache documnet root
 #   ['apache_serveradmin']       - The apache server admin
@@ -31,6 +32,7 @@
 #   }
 #
 class puppet::passenger(
+  $generate_ssl_certs = true,
   $puppet_passenger_port,
   $puppet_docroot,
   $apache_serveradmin,
@@ -52,43 +54,50 @@ class puppet::passenger(
       group  => $::puppet::params::puppet_group,
       mode   => '0750',
     }
-
-    file{"${puppet_ssldir}/ca":
-      ensure => directory,
-      owner  => $::puppet::params::puppet_user,
-      group  => $::puppet::params::puppet_group,
-      mode   => '0770',
-      before => Exec['Certificate_Check'],
-    }
-
-    file{"${puppet_ssldir}/ca/requests":
-      ensure => directory,
-      owner  => $::puppet::params::puppet_user,
-      group  => $::puppet::params::puppet_group,
-      mode   => '0750',
-      before => Exec['Certificate_Check'],
-    }
   }
 
-  # first we need to generate the cert
-  # Clean the installed certs out ifrst
-  $crt_clean_cmd  = "puppet cert clean ${certname}"
-  # I would have preferred to use puppet cert generate, but it does not
-  # return the corret exit code on some versions of puppet
-  $crt_gen_cmd   = "puppet certificate --ca-location=local --dns_alt_names=$dns_alt_names generate ${certname}"
-  # I am using the sign command here b/c AFAICT, the sign command for certificate
-  # does not work
-  $crt_sign_cmd  = "puppet cert sign --allow-dns-alt-names ${certname}"
-  # find is required to move the cert into the certs directory which is
-  # where it needs to be for puppetdb to find it
-  $cert_find_cmd = "puppet certificate --ca-location=local find ${certname}"
+  if str2bool($generate_ssl_certs) == true {
 
-  exec { 'Certificate_Check':
-    command   => "${crt_clean_cmd} ; ${crt_gen_cmd} && ${crt_sign_cmd} && ${cert_find_cmd}",
-    unless    => "/bin/ls ${puppet_ssldir}/certs/${certname}.pem",
-    path      => '/usr/bin:/usr/local/bin',
-    logoutput => on_failure,
-    require   => File[$puppet_conf]
+    if $::osfamily == 'redhat' {
+
+      file{"${puppet_ssldir}/ca":
+	ensure => directory,
+	owner  => $::puppet::params::puppet_user,
+	group  => $::puppet::params::puppet_group,
+	mode   => '0770',
+	before => Exec['Certificate_Check'],
+      }
+
+      file{"${puppet_ssldir}/ca/requests":
+	ensure => directory,
+	owner  => $::puppet::params::puppet_user,
+	group  => $::puppet::params::puppet_group,
+	mode   => '0750',
+	before => Exec['Certificate_Check'],
+      }
+
+    }
+    # first we need to generate the cert
+    # Clean the installed certs out ifrst
+    $crt_clean_cmd  = "puppet cert clean ${certname}"
+    # I would have preferred to use puppet cert generate, but it does not
+    # return the corret exit code on some versions of puppet
+    $crt_gen_cmd   = "puppet certificate --ca-location=local --dns_alt_names=$dns_alt_names generate ${certname}"
+    # I am using the sign command here b/c AFAICT, the sign command for certificate
+    # does not work
+    $crt_sign_cmd  = "puppet cert sign --allow-dns-alt-names ${certname}"
+    # find is required to move the cert into the certs directory which is
+    # where it needs to be for puppetdb to find it
+    $cert_find_cmd = "puppet certificate --ca-location=local find ${certname}"
+
+    exec { 'Certificate_Check':
+      command   => "${crt_clean_cmd} ; ${crt_gen_cmd} && ${crt_sign_cmd} && ${cert_find_cmd}",
+      unless    => "/bin/ls ${puppet_ssldir}/certs/${certname}.pem",
+      path      => '/usr/bin:/usr/local/bin',
+      logoutput => on_failure,
+      require   => File[$puppet_conf]
+    }
+
   }
 
   file { $puppet_docroot:
