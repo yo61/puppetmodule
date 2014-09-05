@@ -309,7 +309,7 @@ describe 'puppet::master', :type => :class do
                 :section => 'master',
                 :setting => 'environmentpath',
                 :path    => '/etc/puppet/puppet.conf',
-                :value   => '$confdir/environments'
+                :value   => '/etc/puppet/environments'
             )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'absent',
@@ -319,7 +319,6 @@ describe 'puppet::master', :type => :class do
                 :ensure  => 'absent',
                 :setting => 'manifest'
             )
-            
         }
     end
     context 'When environment handling is set to directory with specified environmentpath' do
