@@ -23,6 +23,7 @@
 #   ['listen']                - If puppet agent should listen for connections
 #   ['reportserver']          - The server to send transaction reports to.
 #   ['digest_algorithm']      - The algorithm to use for file digests.
+#   ['stringify_facts']       - Wether puppet transforms structured facts in strings or no. Defaults to true in puppet < 4, deprecated in puppet >=4 (and will default to false)
 #
 # Actions:
 # - Install and configures the puppet agent
@@ -58,6 +59,7 @@ class puppet::agent(
   $listen                 = false,
   $reportserver           = '$server',
   $digest_algorithm       = $::puppet::params::digest_algorithm,
+  $stringify_facts        = undef,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -283,5 +285,12 @@ class puppet::agent(
     ensure  => present,
     setting => 'digest_algorithm',
     value   => $digest_algorithm,
+  }
+  if $stringify_facts != undef {
+    ini_setting {'puppetagentstringifyfacts':
+      ensure  => present,
+      setting => 'stringify_facts',
+      value   => $stringify_facts,
+    }
   }
 }
