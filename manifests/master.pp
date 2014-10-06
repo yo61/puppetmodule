@@ -57,8 +57,8 @@ class puppet::master (
   $group_id                   = undef,
   $modulepath                 = $::puppet::params::modulepath,
   $manifest                   = $::puppet::params::manifest,
-  $external_nodes             = 'UNSET',
-  $node_terminus              = 'UNSET',
+  $external_nodes             = undef,
+  $node_terminus              = undef,
   $hiera_config               = $::puppet::params::hiera_config,
   $environmentpath            = $::puppet::params::environmentpath,
   $environments               = $::puppet::params::environments,
@@ -229,7 +229,7 @@ class puppet::master (
     value   => $environmentpath,
   }
 
-  if $external_nodes != 'UNSET'{
+  if $external_nodes != undef {
     ini_setting {'puppetmasterencconfig':
       ensure  => present,
       setting => 'external_nodes',
@@ -242,7 +242,7 @@ class puppet::master (
       value   => 'exec'
     }
   }
-  elsif $node_terminus != 'UNSET'{
+  elsif $node_terminus != undef {
     ini_setting {'puppetmasternodeterminus':
       ensure  => present,
       setting => 'node_terminus',
