@@ -64,7 +64,7 @@ class puppet::master (
   $storeconfigs_dbport        = $::puppet::params::storeconfigs_dbport,
   $certname                   = $::fqdn,
   $autosign                   = false,
-  $reporturl                  = 'UNSET',
+  $reporturl                  = undef,
   $puppet_ssldir              = $::puppet::params::puppet_ssldir,
   $puppet_docroot             = $::puppet::params::puppet_docroot,
   $puppet_vardir              = $::puppet::params::puppet_vardir,
@@ -261,7 +261,7 @@ class puppet::master (
     value   => $parser,
   }
 
-  if $reporturl != 'UNSET'{
+  if $reporturl != undef {
     ini_setting {'puppetmasterreport':
       ensure  => present,
       setting => 'reporturl',
