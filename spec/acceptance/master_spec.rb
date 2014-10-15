@@ -19,7 +19,7 @@ describe 'master tests:' do
             pp = <<-EOS
                 class { 'puppet::master':
                     storeconfigs               => true,
-                    storeconfigs_dbserver      => 'master.test.local',
+                    storeconfigs_dbserver      => 'puppetdb.foo.local',
                     puppetdb_strict_validation => false,
                 }
             EOS
@@ -38,7 +38,6 @@ describe 'master tests:' do
                 class { 'puppetdb': }
                 class { 'puppet::master':
                     storeconfigs               => true,
-                    certname                   => 'master.test.local',
                 }
             EOS
 
