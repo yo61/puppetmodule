@@ -4,7 +4,7 @@ describe 'master tests:' do
     context 'without puppetdb' do
         it 'puppet::master class should work with no errors' do
             pp = <<-EOS
-                class { 'puppet::master': }
+                class { 'puppet::master':}
             EOS
 
             # Run it twice and test for idempotency
@@ -19,7 +19,7 @@ describe 'master tests:' do
             pp = <<-EOS
                 class { 'puppet::master':
                     storeconfigs               => true,
-                    storeconfigs_dbserver      => 'puppetdb.foo.local',
+                    storeconfigs_dbserver      => 'master.test.local',
                     puppetdb_strict_validation => false,
                 }
             EOS
@@ -38,6 +38,7 @@ describe 'master tests:' do
                 class { 'puppetdb': }
                 class { 'puppet::master':
                     storeconfigs               => true,
+                    certname                   => 'master.test.local',
                 }
             EOS
 

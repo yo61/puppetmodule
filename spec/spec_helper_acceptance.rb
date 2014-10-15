@@ -17,6 +17,8 @@ RSpec.configure do |c|
 
       puppet_module_install(:source => proj_root, :module_name => 'puppet')
       # Install dependencies from Modulefile
+      shell("echo '127.0.0.1 master.test.local' >> /etc/hosts")
+      shell('hostname master.test.local')
       shell('puppet module install puppetlabs-inifile')
       shell('puppet module install puppetlabs-apache')
       shell('puppet module install puppetlabs-puppetdb')
