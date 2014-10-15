@@ -91,4 +91,27 @@ describe 'agent tests:' do
           it { should_not be_enabled }
         end
     end
+
+    context 'agent with external scheduler' do
+        it 'should run without errors' do
+            pp = <<-EOS
+                class { 'puppet::agent':
+                    puppet_run_style => external,
+                    templatedir => undef,
+                }
+            EOS
+            # Run it twice and test for idempotency
+            apply_manifest(pp, :catch_failures => true)
+            apply_manifest(pp, :catch_changes => true)
+        end
+
+        describe package('puppet') do
+            it { should be_installed }
+        end
+
+        describe service('puppet') do
+          it { should_not be_running }
+          it { should_not be_enabled }
+        end
+    end
 end
