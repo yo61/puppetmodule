@@ -13,7 +13,7 @@
 #  ['environments']             - Which environment method (directory or config)
 #  ['environmentpath']          - Puppet environment base path (use with environments directory)
 #  ['reports']                  - Turn on puppet reports
-#  ['storeconfigs']             - Use storedcofnigs
+#  ['storeconfigs']             - Use storedconfigs
 #  ['storeconfigs_dbserver']    - Puppetdb server
 #  ['storeconfigs_dbport']      - Puppetdb port
 #  ['certname']                 - The certname the puppet master should use
@@ -22,7 +22,7 @@
 #  ['puppet_ssldir']            - Puppet sll directory
 #  ['puppet_docroot']           - Doc root to be configured in apache vhost
 #  ['puppet_vardir']            - Vardir used by puppet
-#  ['puppet_passenger_port']    - Port to conifgure passenger on default 8140
+#  ['puppet_passenger_port']    - Port to configure passenger on default 8140
 #  ['puppet_master_package']    - Puppet master package
 #  ['puppet_master_service']    - Puppet master service
 #  ['version']                  - Version of the puppet master package to install
