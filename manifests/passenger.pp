@@ -61,19 +61,19 @@ class puppet::passenger(
     if $::osfamily == 'redhat' {
 
       file{"${puppet_ssldir}/ca":
-	ensure => directory,
-	owner  => $::puppet::params::puppet_user,
-	group  => $::puppet::params::puppet_group,
-	mode   => '0770',
-	before => Exec['Certificate_Check'],
+  ensure => directory,
+  owner  => $::puppet::params::puppet_user,
+  group  => $::puppet::params::puppet_group,
+  mode   => '0770',
+  before => Exec['Certificate_Check'],
       }
 
       file{"${puppet_ssldir}/ca/requests":
-	ensure => directory,
-	owner  => $::puppet::params::puppet_user,
-	group  => $::puppet::params::puppet_group,
-	mode   => '0750',
-	before => Exec['Certificate_Check'],
+  ensure => directory,
+  owner  => $::puppet::params::puppet_user,
+  group  => $::puppet::params::puppet_group,
+  mode   => '0750',
+  before => Exec['Certificate_Check'],
       }
 
     }
@@ -108,25 +108,25 @@ class puppet::passenger(
   }
 
   apache::vhost { "puppet-${certname}":
-    port              => $puppet_passenger_port,
-    priority          => '40',
-    docroot           => $puppet_docroot,
-    serveradmin       => $apache_serveradmin,
-    servername        => $certname,
-    ssl               => true,
-    ssl_cert          => "${puppet_ssldir}/certs/${certname}.pem",
-    ssl_key           => "${puppet_ssldir}/private_keys/${certname}.pem",
-    ssl_chain         => "${puppet_ssldir}/ca/ca_crt.pem",
-    ssl_ca            => "${puppet_ssldir}/ca/ca_crt.pem",
-    ssl_crl           => "${puppet_ssldir}/ca/ca_crl.pem",
-    ssl_protocol      => 'ALL -SSLv2 -SSLv3',
-    ssl_cipher        => 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK',
+    port                 => $puppet_passenger_port,
+    priority             => '40',
+    docroot              => $puppet_docroot,
+    serveradmin          => $apache_serveradmin,
+    servername           => $certname,
+    ssl                  => true,
+    ssl_cert             => "${puppet_ssldir}/certs/${certname}.pem",
+    ssl_key              => "${puppet_ssldir}/private_keys/${certname}.pem",
+    ssl_chain            => "${puppet_ssldir}/ca/ca_crt.pem",
+    ssl_ca               => "${puppet_ssldir}/ca/ca_crt.pem",
+    ssl_crl              => "${puppet_ssldir}/ca/ca_crl.pem",
+    ssl_protocol         => 'ALL -SSLv2 -SSLv3',
+    ssl_cipher           => 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK',
     ssl_honorcipherorder => 'On',
-    ssl_verify_client => 'optional',
-    ssl_verify_depth  => '1',
-    ssl_options       => ['+StdEnvVars', '+ExportCertData'],
-    rack_base_uris    => '/',
-    directories       => [
+    ssl_verify_client    => 'optional',
+    ssl_verify_depth     => '1',
+    ssl_options          => ['+StdEnvVars', '+ExportCertData'],
+    rack_base_uris       => '/',
+    directories          => [
       {
         path => $puppet_docroot,
       },
@@ -135,7 +135,7 @@ class puppet::passenger(
         options => 'None',
       },
     ],
-    require         => [ File['/etc/puppet/rack/config.ru'], File[$puppet_conf] ],
+    require              => [ File['/etc/puppet/rack/config.ru'], File[$puppet_conf] ],
   }
 
   #Hack to add extra passenger configurations for puppetmaster
