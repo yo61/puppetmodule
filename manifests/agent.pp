@@ -303,6 +303,7 @@ class puppet::agent(
       setting => 'templatedir',
       section => 'main',
     }
+  }
   ini_setting {'puppetagentconfigtimeout':
     ensure  => present,
     setting => 'configtimeout',
