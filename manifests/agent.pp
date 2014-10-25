@@ -60,6 +60,7 @@ class puppet::agent(
   $listen                 = false,
   $reportserver           = '$server',
   $digest_algorithm       = $::puppet::params::digest_algorithm,
+  $configtimeout          = '2m',
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -302,5 +303,10 @@ class puppet::agent(
       setting => 'templatedir',
       section => 'main',
     }
+  }
+  ini_setting {'puppetagentconfigtimeout':
+    ensure  => present,
+    setting => 'configtimeout',
+    value   => $configtimeout,
   }
 }
