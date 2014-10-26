@@ -25,6 +25,7 @@
 #   ['digest_algorithm']      - The algorithm to use for file digests.
 #   ['templatedir']           - Template dir, if unset it will remove the setting.
 #   ['configtimeout']         - How long the client should wait for the configuration to be retrieved before considering it a failure
+#   ['stringify_facts']       - Wether puppet transforms structured facts in strings or no. Defaults to true in puppet < 4, deprecated in puppet >=4 (and will default to false)
 #
 # Actions:
 # - Install and configures the puppet agent
@@ -62,6 +63,7 @@ class puppet::agent(
   $reportserver           = '$server',
   $digest_algorithm       = $::puppet::params::digest_algorithm,
   $configtimeout          = '2m',
+  $stringify_facts        = undef,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -309,5 +311,12 @@ class puppet::agent(
     ensure  => present,
     setting => 'configtimeout',
     value   => $configtimeout,
+  }
+  if $stringify_facts != undef {
+    ini_setting {'puppetagentstringifyfacts':
+      ensure  => present,
+      setting => 'stringify_facts',
+      value   => $stringify_facts,
+    }
   }
 }
