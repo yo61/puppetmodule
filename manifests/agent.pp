@@ -24,6 +24,7 @@
 #   ['reportserver']          - The server to send transaction reports to.
 #   ['digest_algorithm']      - The algorithm to use for file digests.
 #   ['templatedir']           - Template dir, if unset it will remove the setting.
+#   ['configtimeout']         - How long the client should wait for the configuration to be retrieved before considering it a failure
 #
 # Actions:
 # - Install and configures the puppet agent
