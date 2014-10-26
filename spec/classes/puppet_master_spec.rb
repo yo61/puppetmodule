@@ -345,7 +345,7 @@ describe 'puppet::master', :type => :class do
                 :section => 'master',
                 :setting => 'environmentpath',
                 :path    => '/etc/puppet/puppet.conf',
-                :value   => '/etc/puppet/environments'
+                :value   => '$confdir/environments'
             )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'absent',
