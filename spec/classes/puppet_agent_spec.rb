@@ -549,4 +549,30 @@ describe 'puppet::agent', :type => :class do
       }
     end
   end
+  describe 'puppetagentstringifyfacts' do
+    let(:facts) do
+      {
+        :osfamily        => 'RedHat',
+        :operatingsystem => 'RedHat',
+        :kernel          => 'Linux'
+      }
+    end
+    context 'with stringify_facts set' do
+      let(:params) do
+        {
+          :stringify_facts        => true,
+        }
+      end
+
+      it{
+        should contain_ini_setting('puppetagentstringifyfacts').with(
+          :ensure  => 'present',
+          :section => 'agent',
+          :setting => 'stringify_facts',
+          :value   => 'true',
+          :path    => '/etc/puppet/puppet.conf'
+        )
+      }
+    end
+  end
 end
