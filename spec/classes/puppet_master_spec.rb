@@ -202,7 +202,7 @@ describe 'puppet::master', :type => :class do
                 :gid    => nil
             )
             should contain_package(params[:puppet_master_package]).with(
-                :ensure => params[:version],
+                :ensure => params[:version]
             )
             should_not contain_package('puppetmaster-common').with(
                 :ensure => params[:version]
