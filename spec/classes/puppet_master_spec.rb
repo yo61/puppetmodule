@@ -82,7 +82,7 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'present',
-                :section => 'master',
+                :section => 'main',
                 :setting => 'modulepath',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => params[:modulepath],
@@ -146,7 +146,7 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmasterpluginsync').with(
                 :ensure  => 'present',
-                :section => 'master',
+                :section => 'agent',
                 :setting => 'pluginsync',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => 'true'
@@ -243,7 +243,7 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'present',
-                :section => 'master',
+                :section => 'main',
                 :setting => 'modulepath',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => params[:modulepath],
@@ -307,7 +307,7 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmasterpluginsync').with(
                 :ensure  => 'present',
-                :section => 'master',
+                :section => 'agent',
                 :setting => 'pluginsync',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => 'true'
@@ -342,7 +342,7 @@ describe 'puppet::master', :type => :class do
         it {
             should contain_ini_setting('puppetmasterenvironmentpath').with(
                 :ensure  => 'present',
-                :section => 'master',
+                :section => 'main',
                 :setting => 'environmentpath',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => '$confdir/environments'
@@ -375,7 +375,7 @@ describe 'puppet::master', :type => :class do
         it {
             should contain_ini_setting('puppetmasterenvironmentpath').with(
                 :ensure  => 'present',
-                :section => 'master',
+                :section => 'main',
                 :setting => 'environmentpath',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => '/etc/puppetlabs/puppet/environments'

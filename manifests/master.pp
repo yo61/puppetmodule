@@ -217,6 +217,7 @@ class puppet::master (
     ensure  => $setting_config,
     setting => 'modulepath',
     value   => $modulepath,
+    section => 'main',
   }
   ini_setting {'puppetmastermanifest':
     ensure  => $setting_config,
@@ -227,6 +228,7 @@ class puppet::master (
     ensure  => $setting_directory,
     setting => 'environmentpath',
     value   => $environmentpath,
+    section => 'main',
   }
 
   if $external_nodes != undef {
@@ -278,6 +280,7 @@ class puppet::master (
     ensure  => present,
     setting => 'pluginsync',
     value   => $pluginsync,
+    section => 'agent',
   }
 
   ini_setting {'puppetmasterparser':
@@ -304,6 +307,7 @@ class puppet::master (
       ensure  => present,
       setting => 'digest_algorithm',
       value   => $digest_algorithm,
+      section => 'main',
   }
 
   anchor { 'puppet::master::end': }
