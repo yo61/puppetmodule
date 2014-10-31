@@ -82,7 +82,6 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'present',
-                :section => 'main',
                 :setting => 'modulepath',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => params[:modulepath],
@@ -146,7 +145,6 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmasterpluginsync').with(
                 :ensure  => 'present',
-                :section => 'agent',
                 :setting => 'pluginsync',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => 'true'
@@ -243,7 +241,6 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmastermodulepath').with(
                 :ensure  => 'present',
-                :section => 'main',
                 :setting => 'modulepath',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => params[:modulepath],
@@ -307,7 +304,6 @@ describe 'puppet::master', :type => :class do
             )
             should contain_ini_setting('puppetmasterpluginsync').with(
                 :ensure  => 'present',
-                :section => 'agent',
                 :setting => 'pluginsync',
                 :path    => '/etc/puppet/puppet.conf',
                 :value   => 'true'
@@ -390,5 +386,5 @@ describe 'puppet::master', :type => :class do
             )
         }
     end
-        
+
 end
