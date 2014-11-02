@@ -57,7 +57,7 @@ class puppet::agent(
   $use_srv_records        = false,
   $srv_domain             = undef,
   $ordering               = undef,
-  $templatedir            = '$confdir/templates',
+  $templatedir            = undef,
   $trusted_node_data      = undef,
   $listen                 = false,
   $reportserver           = '$server',

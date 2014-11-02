@@ -465,6 +465,7 @@ describe 'puppet::agent', :type => :class do
           :puppet_run_interval    => 30,
           :puppet_server_port     => 8140,
           :use_srv_records        => false,
+          :templatedir            => '$confdir/templates'
         }
       end
 
@@ -491,8 +492,7 @@ describe 'puppet::agent', :type => :class do
           :environment            => 'production',
           :puppet_run_interval    => 30,
           :puppet_server_port     => 8140,
-          :use_srv_records        => false,
-          :templatedir            => 'undef'
+          :use_srv_records        => false
         }
       end
 

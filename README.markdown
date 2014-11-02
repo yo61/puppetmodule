@@ -60,6 +60,10 @@ Optionally, an `environmentpath` parameter can be supplied to configure the base
         splay                     => true,
     }
 
+## Deprecation Warning ##
+
+The `templatedir` parameter will default to `undef` and will remove the setting from the puppet.conf file in version 2.0.0 of this module.
+
 ## Testing ##
 
 Install gems:
