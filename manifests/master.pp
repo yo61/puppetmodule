@@ -227,6 +227,7 @@ class puppet::master (
     ensure  => $setting_directory,
     setting => 'environmentpath',
     value   => $environmentpath,
+    section => 'main',
   }
 
   if $external_nodes != undef {
