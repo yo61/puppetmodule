@@ -32,6 +32,7 @@
 #
 class puppet::passenger(
   $puppet_passenger_port,
+  $puppet_passenger_tempdir,
   $puppet_docroot,
   $apache_serveradmin,
   $puppet_conf,

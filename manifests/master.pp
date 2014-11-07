@@ -73,6 +73,7 @@ class puppet::master (
   $puppet_docroot             = $::puppet::params::puppet_docroot,
   $puppet_vardir              = $::puppet::params::puppet_vardir,
   $puppet_passenger_port      = $::puppet::params::puppet_passenger_port,
+  $puppet_passenger_tempdir   = $::puppet::params::puppet_passenger_tempdir,
   $puppet_master_package      = $::puppet::params::puppet_master_package,
   $puppet_master_service      = $::puppet::params::puppet_master_service,
   $version                    = 'present',
@@ -121,14 +122,15 @@ class puppet::master (
 
   Anchor['puppet::master::begin'] ->
   class {'puppet::passenger':
-    puppet_passenger_port  => $puppet_passenger_port,
-    puppet_docroot         => $puppet_docroot,
-    apache_serveradmin     => $apache_serveradmin,
-    puppet_conf            => $::puppet::params::puppet_conf,
-    puppet_ssldir          => $puppet_ssldir,
-    certname               => $certname,
-    conf_dir               => $::puppet::params::confdir,
-    dns_alt_names          => join($dns_alt_names,','),
+    puppet_passenger_port    => $puppet_passenger_port,
+    puppet_passenger_tempdir => $puppet_passenger_tempdir,
+    puppet_docroot           => $puppet_docroot,
+    apache_serveradmin       => $apache_serveradmin,
+    puppet_conf              => $::puppet::params::puppet_conf,
+    puppet_ssldir            => $puppet_ssldir,
+    certname                 => $certname,
+    conf_dir                 => $::puppet::params::confdir,
+    dns_alt_names            => join($dns_alt_names,','),
   } ->
   Anchor['puppet::master::end']
 

@@ -24,6 +24,7 @@ class puppet::params {
   $hiera_config                     = '/etc/puppet/hiera.yaml'
   $puppet_docroot                   = '/etc/puppet/rack/public/'
   $puppet_passenger_port            = '8140'
+  $puppet_passenger_tempdir         = '/var/run/rubygem-passenger'
   $puppet_server_port               = '8140'
   $puppet_agent_enabled             = true
   $apache_serveradmin               = 'root'
