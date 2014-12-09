@@ -46,26 +46,23 @@ class puppet::passenger(
   include apache::mod::ssl
 
   if $::osfamily == 'redhat' {
-    file{'/var/lib/puppet/reports':
+    file { '/var/lib/puppet/reports':
       ensure => directory,
       owner  => $::puppet::params::puppet_user,
       group  => $::puppet::params::puppet_group,
-      mode   => '0750',
     }
 
-    file{"${puppet_ssldir}/ca":
+    file { "${puppet_ssldir}/ca":
       ensure => directory,
       owner  => $::puppet::params::puppet_user,
       group  => $::puppet::params::puppet_group,
-      mode   => '0770',
       before => Exec['Certificate_Check'],
     }
 
-    file{"${puppet_ssldir}/ca/requests":
+    file { "${puppet_ssldir}/ca/requests":
       ensure => directory,
       owner  => $::puppet::params::puppet_user,
       group  => $::puppet::params::puppet_group,
-      mode   => '0750',
       before => Exec['Certificate_Check'],
     }
   }
