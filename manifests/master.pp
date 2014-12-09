@@ -74,6 +74,7 @@ class puppet::master (
   $puppet_docroot             = $::puppet::params::puppet_docroot,
   $puppet_vardir              = $::puppet::params::puppet_vardir,
   $puppet_passenger_port      = $::puppet::params::puppet_passenger_port,
+  $puppet_passenger_tempdir   = false,
   $puppet_master_package      = $::puppet::params::puppet_master_package,
   $puppet_master_service      = $::puppet::params::puppet_master_service,
   $version                    = 'present',
@@ -132,6 +133,7 @@ class puppet::master (
     conf_dir              => $::puppet::params::confdir,
     dns_alt_names         => join($dns_alt_names,','),
     generate_ssl_certs    => $generate_ssl_certs,
+    puppet_passenger_tempdir => $puppet_passenger_tempdir,
   } ->
   Anchor['puppet::master::end']
 

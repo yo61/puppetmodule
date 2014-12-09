@@ -34,6 +34,7 @@
 class puppet::passenger(
   $generate_ssl_certs = true,
   $puppet_passenger_port,
+  $puppet_passenger_tempdir = false,
   $puppet_docroot,
   $apache_serveradmin,
   $puppet_conf,
