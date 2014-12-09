@@ -4,4 +4,6 @@ PassengerPoolIdleTime 1500
 PassengerStatThrottleRate 120
 RackAutoDetect Off
 RailsAutoDetect Off
-PassengerTempDir /var/run/rubygem-passenger
+<% if puppet_passenger_tempdir != false %>
+PassengerTempDir <%= @puppet_passenger_tempdir %>
+<% end %>
