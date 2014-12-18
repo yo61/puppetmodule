@@ -177,11 +177,12 @@ class puppet::master (
   }
 
   file { $puppet_vardir:
-    ensure       => directory,
-    owner        => $::puppet::params::puppet_user,
-    group        => $::puppet::params::puppet_group,
-    notify       => Service['httpd'],
-    require      => Package[$puppet_master_package]
+    ensure  => directory,
+    owner   => $::puppet::params::puppet_user,
+    group   => $::puppet::params::puppet_group,
+    mode    => '0750',
+    notify  => Service['httpd'],
+    require => Package[$puppet_master_package]
   }
 
   if $storeconfigs {
