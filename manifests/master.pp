@@ -124,23 +124,23 @@ class puppet::master (
 
   Anchor['puppet::master::begin'] ->
   class {'puppet::passenger':
-    puppet_passenger_port => $puppet_passenger_port,
-    puppet_docroot        => $puppet_docroot,
-    apache_serveradmin    => $apache_serveradmin,
-    puppet_conf           => $::puppet::params::puppet_conf,
-    puppet_ssldir         => $puppet_ssldir,
-    certname              => $certname,
-    conf_dir              => $::puppet::params::confdir,
-    dns_alt_names         => join($dns_alt_names,','),
-    generate_ssl_certs    => $generate_ssl_certs,
+    puppet_passenger_port    => $puppet_passenger_port,
+    puppet_docroot           => $puppet_docroot,
+    apache_serveradmin       => $apache_serveradmin,
+    puppet_conf              => $::puppet::params::puppet_conf,
+    puppet_ssldir            => $puppet_ssldir,
+    certname                 => $certname,
+    conf_dir                 => $::puppet::params::confdir,
+    dns_alt_names            => join($dns_alt_names,','),
+    generate_ssl_certs       => $generate_ssl_certs,
     puppet_passenger_tempdir => $puppet_passenger_tempdir,
   } ->
   Anchor['puppet::master::end']
 
   service { $puppet_master_service:
-    ensure    => stopped,
-    enable    => false,
-    require   => File[$::puppet::params::puppet_conf],
+    ensure  => stopped,
+    enable  => false,
+    require => File[$::puppet::params::puppet_conf],
   }
 
   if ! defined(File[$::puppet::params::puppet_conf]){
@@ -177,11 +177,11 @@ class puppet::master (
   }
 
   file { $puppet_vardir:
-    ensure       => directory,
-    owner        => $::puppet::params::puppet_user,
-    group        => $::puppet::params::puppet_group,
-    notify       => Service['httpd'],
-    require      => Package[$puppet_master_package]
+    ensure  => directory,
+    owner   => $::puppet::params::puppet_user,
+    group   => $::puppet::params::puppet_group,
+    notify  => Service['httpd'],
+    require => Package[$puppet_master_package]
   }
 
   if $storeconfigs {
