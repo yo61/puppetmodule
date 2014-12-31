@@ -71,3 +71,8 @@
   * Let Puppet deal with setting it's own permissions <Michael Arnold>
   * Added configtimeout setting to puppet::agent to allow override of this default setting <Jesi Major>
   * Add new flag to make ssl cert generation optional <Robin Bowes>
+2014-12-31 Stephen Johnson <steve@thatbytes.co.uk> - 1.3.0
+  * missing @ in the variable <primeministerp>
+  * Remove RackAutoDetect and RailsAutoDetest <Stephen Johnson>
+  * Add acceptance tests for redhat <Stephen Johnson>
+  * Add new metadata file for puppetforge  <Stephen Johnson>
