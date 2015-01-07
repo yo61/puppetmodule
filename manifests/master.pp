@@ -87,7 +87,7 @@ class puppet::master (
   $dns_alt_names              = ['puppet'],
   $digest_algorithm           = $::puppet::params::digest_algorithm,
   $generate_ssl_certs         = true,
-  $strict_variables           = false,
+  $strict_variables           = undef,
 ) inherits puppet::params {
 
   anchor { 'puppet::master::begin': }
@@ -123,8 +123,6 @@ class puppet::master (
       ensure         => $version,
     }
   }
-
-  validate_bool($strict_variables)
 
   Anchor['puppet::master::begin'] ->
   class {'puppet::passenger':
@@ -316,10 +314,13 @@ class puppet::master (
       value   => $digest_algorithm,
   }
 
-  ini_setting {'puppetmasterstrictvariables':
-      ensure  => present,
-      setting => 'strict_variables',
-      value   => $strict_variables,
+  if $strict_variables != undef {
+    validate_bool($strict_variables)
+    ini_setting {'puppetmasterstrictvariables':
+        ensure  => present,
+        setting => 'strict_variables',
+        value   => $strict_variables,
+    }
   }
 
   anchor { 'puppet::master::end': }
