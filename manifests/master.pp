@@ -315,7 +315,7 @@ class puppet::master (
   }
 
   if $strict_variables != undef {
-    validate_bool($strict_variables)
+    validate_bool(str2bool($strict_variables))
     ini_setting {'puppetmasterstrictvariables':
         ensure  => present,
         setting => 'strict_variables',
