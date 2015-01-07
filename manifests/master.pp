@@ -33,6 +33,7 @@
 #  ['dns_alt_names']            - Comma separated list of alternative DNS names
 #  ['digest_algorithm']         - The algorithm to use for file digests.
 #  ['generate_ssl_certs']       - Generate ssl certs (false to disable)
+#  ['strict_variables']         - Makes the parser raise errors when referencing unknown variables
 #
 # Requires:
 #
@@ -86,6 +87,7 @@ class puppet::master (
   $dns_alt_names              = ['puppet'],
   $digest_algorithm           = $::puppet::params::digest_algorithm,
   $generate_ssl_certs         = true,
+  $strict_variables           = false,
 ) inherits puppet::params {
 
   anchor { 'puppet::master::begin': }
@@ -121,6 +123,8 @@ class puppet::master (
       ensure         => $version,
     }
   }
+
+  validate_bool($strict_variables)
 
   Anchor['puppet::master::begin'] ->
   class {'puppet::passenger':
@@ -310,6 +314,12 @@ class puppet::master (
       ensure  => present,
       setting => 'digest_algorithm',
       value   => $digest_algorithm,
+  }
+
+  ini_setting {'puppetmasterstrictvariables':
+      ensure  => present,
+      setting => 'strict_variables',
+      value   => $strict_variables,
   }
 
   anchor { 'puppet::master::end': }
