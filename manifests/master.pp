@@ -86,6 +86,7 @@ class puppet::master (
   $dns_alt_names              = ['puppet'],
   $digest_algorithm           = $::puppet::params::digest_algorithm,
   $generate_ssl_certs         = true,
+  $puppetdb_version           = 'present',
 ) inherits puppet::params {
 
   anchor { 'puppet::master::begin': }
@@ -195,6 +196,7 @@ class puppet::master (
       puppet_master_package      => $puppet_master_package,
       puppetdb_startup_timeout   => $puppetdb_startup_timeout,
       puppetdb_strict_validation => $puppetdb_strict_validation,
+      puppetdb_version           => $puppetdb_version,
     } ->
     Anchor['puppet::master::end']
   }
