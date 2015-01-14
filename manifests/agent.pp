@@ -42,25 +42,29 @@
 #   }
 #
 class puppet::agent(
-  $puppet_server          = $::puppet::params::puppet_server,
-  $puppet_server_port     = $::puppet::params::puppet_server_port,
   $puppet_agent_service   = $::puppet::params::puppet_agent_service,
   $puppet_agent_package   = $::puppet::params::puppet_agent_package,
   $version                = 'present',
   $puppet_run_style       = 'service',
-  $puppet_run_interval    = 30,
   $puppet_run_command     = '/usr/bin/puppet agent --no-daemonize --onetime --logdest syslog > /dev/null 2>&1',
   $user_id                = undef,
   $group_id               = undef,
-  $splay                  = false,
-  $environment            = 'production',
-  $report                 = true,
-  $pluginsync             = true,
-  $use_srv_records        = false,
+
+  #[main]
+  $templatedir            = undef,
+
+  #[agent]
   $srv_domain             = undef,
   $ordering               = undef,
-  $templatedir            = undef,
   $trusted_node_data      = undef,
+  $environment            = 'production',
+  $puppet_server          = $::puppet::params::puppet_server,
+  $use_srv_records        = false,
+  $puppet_run_interval    = 30,
+  $splay                  = false,
+  $puppet_server_port     = $::puppet::params::puppet_server_port,
+  $report                 = true,
+  $pluginsync             = true,
   $listen                 = false,
   $reportserver           = '$server',
   $digest_algorithm       = $::puppet::params::digest_algorithm,
