@@ -70,6 +70,9 @@ class puppet::agent(
   $digest_algorithm       = $::puppet::params::digest_algorithm,
   $configtimeout          = '2m',
   $stringify_facts        = undef,
+  $verbose                = undef,
+  $noop                   = undef,
+  $usecacheonfailure      = undef,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -323,6 +326,27 @@ class puppet::agent(
       ensure  => present,
       setting => 'stringify_facts',
       value   => $stringify_facts,
+    }
+  }
+  if $verbose != undef {
+    ini_setting {'puppetagentverbose':
+      ensure  => present,
+      setting => 'verbose',
+      value   => $verbose,
+    }
+  }
+  if $noop != undef {
+    ini_setting {'puppetagentnoop':
+      ensure  => present,
+      setting => 'noop',
+      value   => $noop,
+    }
+  }
+  if $usecacheonfailure != undef {
+    ini_setting {'puppetagentusecacheonfailure':
+      ensure  => present,
+      setting => 'usecacheonfailure',
+      value   => $usecacheonfailure,
     }
   }
 }
