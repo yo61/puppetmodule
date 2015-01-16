@@ -72,7 +72,7 @@ class puppet::agent(
   $configtimeout          = '2m',
   $stringify_facts        = undef,
   $verbose                = undef,
-  $noop                   = undef,
+  $agent_noop             = undef,
   $usecacheonfailure      = undef,
   $certname               = undef,
 ) inherits puppet::params {
@@ -337,11 +337,11 @@ class puppet::agent(
       value   => $verbose,
     }
   }
-  if $noop != undef {
+  if $agent_noop != undef {
     ini_setting {'puppetagentnoop':
       ensure  => present,
       setting => 'noop',
-      value   => $noop,
+      value   => $agent_noop,
     }
   }
   if $usecacheonfailure != undef {
