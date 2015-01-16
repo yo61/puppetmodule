@@ -74,6 +74,7 @@ class puppet::agent(
   $verbose                = undef,
   $noop                   = undef,
   $usecacheonfailure      = undef,
+  $certname               = undef,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -356,6 +357,13 @@ class puppet::agent(
       setting => 'syslogfacility',
       value   => $syslogfacility,
       section => 'main',
+    }
+  }
+  if $certname != undef {
+    ini_setting {'puppetagentcertname':
+      ensure  => present,
+      setting => 'certname',
+      value   => $certname,
     }
   }
 }
