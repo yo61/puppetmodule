@@ -52,6 +52,7 @@ class puppet::agent(
 
   #[main]
   $templatedir            = undef,
+  $syslogfacility         = undef,
 
   #[agent]
   $srv_domain             = undef,
@@ -347,6 +348,14 @@ class puppet::agent(
       ensure  => present,
       setting => 'usecacheonfailure',
       value   => $usecacheonfailure,
+    }
+  }
+  if $syslogfacility != undef {
+    ini_setting {'puppetagentsyslogfacility':
+      ensure  => present,
+      setting => 'syslogfacility',
+      value   => $syslogfacility,
+      section => 'main',
     }
   }
 }
