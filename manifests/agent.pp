@@ -53,6 +53,7 @@ class puppet::agent(
   #[main]
   $templatedir            = undef,
   $syslogfacility         = undef,
+  $priority               = undef,
 
   #[agent]
   $srv_domain             = undef,
@@ -364,6 +365,14 @@ class puppet::agent(
       ensure  => present,
       setting => 'certname',
       value   => $certname,
+    }
+  }
+  if $priority != undef {
+    ini_setting {'puppetagentpriority':
+      ensure  => present,
+      setting => 'priority',
+      value   => $priority,
+      section => 'main',
     }
   }
 }
