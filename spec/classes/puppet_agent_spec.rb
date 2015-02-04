@@ -93,8 +93,8 @@ describe 'puppet::agent', :type => :class do
           }
         end
 
-        it{
-          expect{ subject }.to raise_error()
+        it {
+          should compile.and_raise_error(/puppet has attribute use_srv_records set but has srv_domain unset/)
         }
       end
 
@@ -252,8 +252,8 @@ describe 'puppet::agent', :type => :class do
           }
         end
 
-        it{
-          expect{ subject }.to raise_error()
+        it {
+          should compile.and_raise_error(/puppet has attribute use_srv_records set but has srv_domain unset/)
         }
       end
 
