@@ -76,6 +76,8 @@ class puppet::agent(
   $agent_noop             = undef,
   $usecacheonfailure      = undef,
   $certname               = undef,
+  $http_proxy_host        = undef,
+  $http_proxy_port        = undef,
 ) inherits puppet::params {
 
   if ! defined(User[$::puppet::params::puppet_user]) {
@@ -373,6 +375,20 @@ class puppet::agent(
       setting => 'priority',
       value   => $priority,
       section => 'main',
+    }
+  }
+  if $http_proxy_host != undef {
+    ini_setting {'puppetagenthttpproxyhost':
+      ensure  => present,
+      setting => 'http_proxy_host',
+      value   => $http_proxy_host,
+    }
+  }
+  if $http_proxy_port != undef {
+    ini_setting {'puppetagenthttpproxyport':
+      ensure  => present,
+      setting => 'http_proxy_port',
+      value   => $http_proxy_port,
     }
   }
 }
