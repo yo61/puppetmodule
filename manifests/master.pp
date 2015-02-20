@@ -34,6 +34,7 @@
 #  ['digest_algorithm']         - The algorithm to use for file digests.
 #  ['generate_ssl_certs']       - Generate ssl certs (false to disable)
 #  ['strict_variables']         - Makes the parser raise errors when referencing unknown variables
+#  ['always_cache_features']    - if false (default), always try to load a feature even if a previous load failed
 #
 # Requires:
 #
@@ -89,6 +90,7 @@ class puppet::master (
   $generate_ssl_certs         = true,
   $strict_variables           = undef,
   $puppetdb_version           = 'present',
+  $always_cache_features      = false,
 ) inherits puppet::params {
 
   anchor { 'puppet::master::begin': }
@@ -305,25 +307,31 @@ class puppet::master (
   }
 
   ini_setting {'puppetmasterdnsaltnames':
-      ensure  => present,
-      setting => 'dns_alt_names',
-      value   => join($dns_alt_names, ','),
+    ensure  => present,
+    setting => 'dns_alt_names',
+    value   => join($dns_alt_names, ','),
   }
 
   ini_setting {'puppetmasterdigestalgorithm':
-      ensure  => present,
-      setting => 'digest_algorithm',
-      value   => $digest_algorithm,
+    ensure  => present,
+    setting => 'digest_algorithm',
+    value   => $digest_algorithm,
   }
 
   if $strict_variables != undef {
     validate_bool(str2bool($strict_variables))
     ini_setting {'puppetmasterstrictvariables':
-        ensure  => present,
-        setting => 'strict_variables',
-        value   => $strict_variables,
+      ensure  => present,
+      setting => 'strict_variables',
+      value   => $strict_variables,
     }
   }
 
+  validate_bool(str2bool($always_cache_features))
+  ini_setting { 'puppetmasteralwayscachefeatures':
+    ensure  => present,
+    setting => 'always_cache_features',
+    value   => $always_cache_features,
+  }
   anchor { 'puppet::master::end': }
 }
