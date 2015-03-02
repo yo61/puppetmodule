@@ -48,14 +48,6 @@ class puppet::passenger(
   class { 'apache::mod::passenger': passenger_max_pool_size => 12, }
   include apache::mod::ssl
 
-  if $::osfamily == 'redhat' {
-    file { '/var/lib/puppet/reports':
-      ensure => directory,
-      owner  => $::puppet::params::puppet_user,
-      group  => $::puppet::params::puppet_group,
-    }
-  }
-
   if str2bool($generate_ssl_certs) == true {
     file{"${puppet_ssldir}/ca":
       ensure => directory,
